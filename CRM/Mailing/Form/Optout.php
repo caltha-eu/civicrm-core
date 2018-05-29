@@ -28,13 +28,13 @@ class CRM_Mailing_Form_Optout extends CRM_Core_Form {
       !$queue_id ||
       !$hash
     ) {
-      throw new CRM_Core_Exception(ts("Missing input parameters"));
+      throw new CRM_Core_Exception(ts("Brakuje parametrów"));
     }
 
     // verify that the three numbers above match
     $q = CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
     if (!$q) {
-      throw new CRM_Core_Exception(ts("There was an error in your request"));
+      throw new CRM_Core_Exception(ts("Wystąpił błąd podczas Twojej próby zweryfikowania prośby"));
     }
 
     list($displayName, $email) = CRM_Mailing_Event_BAO_Queue::getContactInfo($queue_id);
@@ -47,20 +47,20 @@ class CRM_Mailing_Form_Optout extends CRM_Core_Form {
 
   public function buildQuickForm() {
     CRM_Utils_System::addHTMLHead('<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">');
-    CRM_Utils_System::setTitle(ts('Please Confirm Your Opt Out'));
+    CRM_Utils_System::setTitle(ts('Potwierdź prośbę o rezygnację ze wszystkich wysyłek'));
 
-    $this->add('text', 'email_confirm', ts('Verify email address to opt out:'));
-    $this->addRule('email_confirm', ts('Email address is required to opt out.'), 'required');
+    $this->add('text', 'email_confirm', ts('Potwierdź adres e-mail:'));
+    $this->addRule('email_confirm', ts('Adres e-mail jest wymagany przy rezygnacji z wysyłek'), 'required');
 
     $buttons = [
       [
         'type' => 'next',
-        'name' => ts('Opt Out'),
+        'name' => ts('Rezygnuj'),
         'isDefault' => TRUE,
       ],
       [
         'type' => 'cancel',
-        'name' => ts('Cancel'),
+        'name' => ts('Anuluj'),
       ],
     ];
 
@@ -89,7 +89,7 @@ class CRM_Mailing_Form_Optout extends CRM_Core_Form {
         CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($queue_id, NULL, TRUE, $job_id);
       }
 
-      $statusMsg = ts('Email: %1 has been successfully opted out',
+      $statusMsg = ts('Adres e-mail: %1 został prawidłowy wypisany ze wszystkich wysyłek',
         [1 => $values['email_confirm']]
       );
 
@@ -97,7 +97,7 @@ class CRM_Mailing_Form_Optout extends CRM_Core_Form {
     }
     elseif ($result == FALSE) {
       // Email address not verified
-      $statusMsg = ts('The email address: %1 you have entered does not match the email associated with this opt out request.',
+      $statusMsg = ts('Adres e-mail %1, który podałeś/aś nie pasuje do tej prośby o rezygnację ze wszystkich wysyłek.',
         [1 => $values['email_confirm']]
       );
 
