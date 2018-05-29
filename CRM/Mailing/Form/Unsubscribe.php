@@ -36,13 +36,13 @@ class CRM_Mailing_Form_Unsubscribe extends CRM_Core_Form {
       !$queue_id ||
       !$hash
     ) {
-      throw new CRM_Core_Exception(ts('Missing Parameters'));
+      throw new CRM_Core_Exception(ts('Brakuje parametrów'));
     }
 
     // verify that the three numbers above match
     $q = CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
     if (!$q) {
-      throw new CRM_Core_Exception(ts("There was an error in your request"));
+      throw new CRM_Core_Exception(ts("Wystąpił błąd podczas Twojej próby zweryfikowania prośby"));
     }
 
     list($displayName, $email) = CRM_Mailing_Event_BAO_Queue::getContactInfo($queue_id);
@@ -61,7 +61,7 @@ class CRM_Mailing_Form_Unsubscribe extends CRM_Core_Form {
       }
     }
     if (!$groupExist) {
-      $statusMsg = ts('%1 has been unsubscribed.',
+      $statusMsg = ts('Adres e-mail %1 został prawidłowy wypisany z newslettera.',
         [1 => $email]
       );
       CRM_Core_Session::setStatus($statusMsg, '', 'error');
@@ -72,20 +72,20 @@ class CRM_Mailing_Form_Unsubscribe extends CRM_Core_Form {
 
   public function buildQuickForm() {
     CRM_Utils_System::addHTMLHead('<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">');
-    CRM_Utils_System::setTitle(ts('Unsubscribe Confirmation'));
+    CRM_Utils_System::setTitle(ts('Potwierdź proszę wypisanie się z newslettera'));
 
-    $this->add('text', 'email_confirm', ts('Verify email address to unsubscribe:'));
-    $this->addRule('email_confirm', ts('Email address is required to unsubscribe.'), 'required');
+    $this->add('text', 'email_confirm', ts('Zweryfikuj adres eimail:'));
+    $this->addRule('email_confirm', ts('Adres e-mail jest wymagany do wypisania się z newslettera'), 'required');
 
     $buttons = [
       [
         'type' => 'next',
-        'name' => ts('Unsubscribe'),
+        'name' => ts('Wypisz mnie'),
         'isDefault' => TRUE,
       ],
       [
         'type' => 'cancel',
-        'name' => ts('Cancel'),
+        'name' => ts('Anuluj'),
       ],
     ];
 
@@ -114,7 +114,7 @@ class CRM_Mailing_Form_Unsubscribe extends CRM_Core_Form {
         CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($queue_id, $groups, FALSE, $job_id);
       }
 
-      $statusMsg = ts('%1 is unsubscribed.',
+      $statusMsg = ts('Adres e-mail: %1 został wypisany z newslettera.',
         [1 => $values['email_confirm']]
       );
 
@@ -122,7 +122,7 @@ class CRM_Mailing_Form_Unsubscribe extends CRM_Core_Form {
     }
     elseif ($result == FALSE) {
       // Email address not verified
-      $statusMsg = ts('%1 is not associated with this unsubscribe request.',
+      $statusMsg = ts('Adres e-mail %1, który podałeś/aś nie pasuje do tej prośby o wypisanie się.',
         [1 => $values['email_confirm']]
       );
 
