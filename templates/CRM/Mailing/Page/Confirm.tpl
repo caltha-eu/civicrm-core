@@ -26,8 +26,8 @@
 <div class="messages status no-popup">
       <div class="icon inform-icon"></div>&nbsp;
 {if $success}
-      {ts 1=$display_name 2=$email 3=$group}<strong>%1 (%2)</strong> has been successfully subscribed to the <strong>%3</strong> mailing list.{/ts}
+      {ts 1=$display_name 2=$email 3=$group}Adres e-mail <strong>%1 (%2)</strong> został prawidłowo zapisany na listę <strong>%3</strong>.{/ts}
 {else}
-      {ts}Oops. We encountered a problem in processing your subscription confirmation. Please contact the site administrator.{/ts}
+      {ts}Ups. Wystąpił problem z zapisaniem Ciebie na naszą listę. Spróbuj ponownie lub skontaktuj się z naszym administratorem.{/ts}
 {/if}
 </div>
