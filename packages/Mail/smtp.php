@@ -274,9 +274,14 @@ class Mail_smtp extends Mail {
         /* Since few MTAs are going to allow this header to be forged
          * unless it's in the MAIL FROM: exchange, we'll use
          * Return-Path instead of From: if it's set. */
-        if (!empty($headers['Return-Path'])) {
-            $from = $headers['Return-Path'];
-        }
+// TP wyłączyliśmy bo nie działało wysyłanie mailingów, błąd w civilogu:
+// Failed to add recipient: ****@gmail.com [SMTP: Invalid response code received from SMTP server while sending email.
+// This is often caused by a misconfiguration in Outbound Email settings. Please verify the settings at
+// Administer CiviCRM >> Global Settings >> Outbound Email (SMTP). (code: 553, response: 5.7.1
+// <fundacja+b.662.552.6f49919fec1c1c1c@fundacjabgzbnpparibas.pl>: Sender address rejected: not owned by user fundacja@fundacjabgzbnpparibas.pl)]
+//        if (!empty($headers['Return-Path'])) {
+//            $from = $headers['Return-Path'];
+//        }
 
         if (!isset($from)) {
             $this->_smtp->rset();
