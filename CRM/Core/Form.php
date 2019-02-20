@@ -558,6 +558,12 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
 
     $hookErrors = array();
 
+    foreach ($this->_elementIndex as $elementIndex => $index) {
+      if (!in_array($elementIndex, array_keys($this->_submitValues))) {
+        $this->_submitValues[$elementIndex] = NULL;
+      }
+    }
+
     CRM_Utils_Hook::validateForm(
       get_class($this),
       $this->_submitValues,
