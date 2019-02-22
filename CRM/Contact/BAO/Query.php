@@ -1637,9 +1637,16 @@ class CRM_Contact_BAO_Query {
         }
       }
       elseif ($id == 'email_on_hold') {
-        if ($onHoldValue = CRM_Utils_Array::value('email_on_hold', $formValues)) {
-          $onHoldValue = (array) $onHoldValue;
-          $params[] = array('on_hold', 'IN', $onHoldValue, 0, 0);
+        if (Civi::settings()->get('civimail_multiple_bulk_emails')) {
+          if ($onHoldValue = CRM_Utils_Array::value('email_on_hold', $formValues)) {
+            $onHoldValue = (array) $onHoldValue;
+            $params[] = array('on_hold', 'IN', $onHoldValue, 0, 0);
+          }
+        }
+        else {
+          if ($formValues['email_on_hold']) {
+            $params[] = array('on_hold', '=', $formValues['email_on_hold'], 0, 0);
+          }
         }
       }
       elseif (substr($id, 0, 7) == 'custom_'
