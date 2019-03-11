@@ -326,7 +326,8 @@ class CRM_Admin_Form_ScheduleReminders extends CRM_Admin_Form {
       $errors['subject'] = ts('Subject is a required field.');
     }
     if (!empty($fields['is_active']) &&
-      CRM_Utils_System::isNull(trim(strip_tags($fields['html_message']))) && (!$mode || $mode != 'SMS')
+      CRM_Utils_System::isNull(trim(strip_tags($fields['html_message']))) && (!$mode || $mode != 'SMS') &&
+      CRM_Utils_System::isNull(trim(strip_tags($fields['text_message'])))
     ) {
       $errors['html_message'] = ts('The HTML message is a required field.');
     }
