@@ -270,7 +270,9 @@
         'nick_name',
         'household_name',
         'organization_name',
-        'email'
+        'email',
+        'custom_46',
+        'custom_78'
       ],
       ruleFields = {},
       $ruleElements = $(),
