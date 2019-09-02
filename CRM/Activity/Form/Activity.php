@@ -44,6 +44,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
   public $_activityId;
 
   /**
+   * The id of the parent object
+   *
+   * @var int
+   */
+  public $_parentId;
+
+  /**
    * Store activity ids when multiple activities are created.
    *
    * @var int
@@ -256,6 +263,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
       $this->_currentlyViewedContactId = CRM_Utils_Request::retrieve('cid', 'Positive', $this);
     }
     $this->assign('contactId', $this->_currentlyViewedContactId);
+
+    $this->_parentId = CRM_Utils_Request::retrieve('parent_id', 'Positive', $this, FALSE);
 
     // Give the context.
     if (!isset($this->_context)) {
@@ -924,6 +933,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task {
     // Set activity type id.
     if (empty($params['activity_type_id'])) {
       $params['activity_type_id'] = $this->_activityTypeId;
+    }
+
+    if (empty($params['parent_id'])) {
+      $params['parent_id'] = $this->_parentId;
     }
 
     if (!empty($params['hidden_custom']) &&

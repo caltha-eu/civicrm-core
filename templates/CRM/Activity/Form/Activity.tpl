@@ -52,7 +52,7 @@
     <div class="help">{$activityTypeDescription}</div>
     {/if}
   {else}
-    {if $context eq 'standalone' or $context eq 'search' or $context eq 'smog'}
+    {if $context eq 'activity' or $context eq 'standalone' or $context eq 'search' or $context eq 'smog'}
     <tr class="crm-activity-form-block-activity_type_id">
       <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
     </tr>
