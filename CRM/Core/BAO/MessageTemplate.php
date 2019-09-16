@@ -411,7 +411,7 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
     }
     else {
       // fetch the three elements from the db based on option_group and option_value names
-      $query = 'SELECT msg_subject subject, msg_text text, msg_html html, pdf_format_id format
+      $query = 'SELECT msg_subject subject, msg_text text, msg_html html, pdf_format_id format, ov.is_active
                       FROM civicrm_msg_template mt
                       JOIN civicrm_option_value ov ON workflow_id = ov.id
                       JOIN civicrm_option_group og ON ov.option_group_id = og.id
@@ -431,6 +431,11 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
           2 => $params['valueName'],
         ]));
       }
+    }
+
+    if (!$dao->is_active) {
+      // sent, subject, text, html
+      return [FALSE, NULL, NULL, NULL];
     }
 
     $mailContent = [
