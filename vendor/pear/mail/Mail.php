@@ -221,6 +221,7 @@ class Mail
                 $lines[] = $key . ': ' . $value;
             }
         }
+        $lines[] = 'X-MAILTAGS: ' . $_SERVER['SERVER_NAME'];
 
         return array($from, join($this->sep, $lines));
     }
