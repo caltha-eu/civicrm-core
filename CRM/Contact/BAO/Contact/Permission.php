@@ -300,7 +300,7 @@ AND ac.user_id IS NULL
       $whereClase = NULL;
     }
     else {
-      $fromClause = " INNER JOIN civicrm_acl_contact_cache aclContactCache ON {$contactAlias}.id = aclContactCache.contact_id ";
+      $fromClause = " INNER JOIN civicrm_acl_contact_cache aclContactCache ON {$contactAlias}.id = aclContactCache.contact_id AND aclContactCache.user_id = {$contactID}";
       $whereClase = " aclContactCache.user_id = $contactID AND $contactAlias.is_deleted = 0";
     }
 
