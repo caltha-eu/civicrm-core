@@ -91,17 +91,30 @@ class CRM_Activity_Form_Task_PickProfile extends CRM_Activity_Form_Task {
     $profiles = CRM_Core_BAO_UFGroup::getProfiles($types, TRUE);
 
     $activityTypeIds = array_flip(CRM_Core_PseudoConstant::activityType(TRUE, FALSE, FALSE, 'name'));
-    $nonEditableActivityTypeIds = [
-      $activityTypeIds['Email'],
-      $activityTypeIds['Bulk Email'],
-      $activityTypeIds['Contribution'],
-      $activityTypeIds['Inbound Email'],
-      $activityTypeIds['Pledge Reminder'],
-      $activityTypeIds['Membership Signup'],
-      $activityTypeIds['Membership Renewal'],
-      $activityTypeIds['Event Registration'],
-      $activityTypeIds['Pledge Acknowledgment'],
+    $enabledComponents = CRM_Core_Config::singleton()->enableComponents;
+    $nonEditableActivityType = [
+      'Email',
+      'Bulk Email',
+      'Contribution',
+      'Inbound Email',
+      'Pledge Reminder',
+      'Membership Signup',
+      'Membership Renewal',
+      'Event Registration',
+      'Pledge Acknowledgment',
     ];
+    $query = "SELECT ov.value
+              FROM civicrm_option_value ov
+                JOIN civicrm_option_group og ON og.id = ov.option_group_id
+              WHERE og.name = 'activity_type'
+                AND ov.name IN ('" . implode("', '", $nonEditableActivityType) . "')
+                AND (ov.component_id IS NULL OR ov.component_id IN (
+                SELECT id FROM civicrm_component WHERE name IN ('" . implode("', '", $enabledComponents) ."')))";
+    $dao = CRM_Core_DAO::executeQuery($query);
+    $nonEditableActivityTypeIds = [];
+    while ($dao->fetch()) {
+      $nonEditableActivityTypeIds[] = $dao->value;
+    }
     $notEditable = FALSE;
     foreach ($this->_activityHolderIds as $activityId) {
       $typeId = CRM_Core_DAO::getFieldValue("CRM_Activity_DAO_Activity", $activityId, 'activity_type_id');
