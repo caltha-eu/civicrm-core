@@ -162,13 +162,14 @@ class CRM_Activity_Form_Task_Batch extends CRM_Activity_Form_Task {
       foreach ($this->_fields as $name => $field) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($name)) {
           $customValue = CRM_Utils_Array::value($customFieldID, $customFields);
+          $entityColumnValue = [];
           if (!empty($customValue['extends_entity_column_value'])) {
             $entityColumnValue = explode(CRM_Core_DAO::VALUE_SEPARATOR,
               $customValue['extends_entity_column_value']
             );
           }
-          if (!empty($entityColumnValue[$typeId]) ||
-            CRM_Utils_System::isNull($entityColumnValue[$typeId])
+          if (CRM_Utils_System::isNull($customValue['extends_entity_column_value']) ||
+            in_array($typeId, $entityColumnValue)
           ) {
             CRM_Core_BAO_UFGroup::buildProfile($this, $field, NULL, $activityId);
           }
