@@ -236,20 +236,25 @@ AND    $operationClause
       }
     }
 
+    $lock = Civi::lockManager()->acquire("data.core.aclcontact.{$userID}");
+    if (!$lock->isAcquired()) {
+      return;
+    }
+
     $tables = [];
     $whereTables = [];
 
     $permission = CRM_ACL_API::whereClause($type, $tables, $whereTables, $userID, FALSE, FALSE, TRUE);
 
     $from = CRM_Contact_BAO_Query::fromClause($whereTables);
-    CRM_Core_DAO::executeQuery("
-INSERT INTO civicrm_acl_contact_cache ( user_id, contact_id, operation )
-SELECT DISTINCT $userID as user_id, contact_a.id as contact_id, '{$operation}' as operation
-         $from
-         LEFT JOIN civicrm_acl_contact_cache ac ON ac.user_id = $userID AND ac.contact_id = contact_a.id AND ac.operation = '{$operation}'
-WHERE    $permission
-AND ac.user_id IS NULL
-");
+    $sql = "SELECT DISTINCT $userID as user_id, contact_a.id as contact_id, '{$operation}' as operation
+     {$from}
+    WHERE {$permission}";
+    $tempTable = 'civicrm_temp_acl_contact_cache' . rand(0, 2000);
+    $insertSql = "CREATE TEMPORARY TABLE {$tempTable} {$sql};";
+    CRM_Core_DAO::executeQuery($insertSql);
+    CRM_Core_DAO::executeQuery("INSERT IGNORE INTO civicrm_acl_contact_cache (user_id, contact_id, operation) SELECT user_id, contact_id, operation FROM {$tempTable}");
+    CRM_Core_DAO::executeQuery("DROP TEMPORARY TABLE {$tempTable}");
 
     // Add in a row for the logged in contact. Do not try to combine with the above query or an ugly OR will appear in
     // the permission clause.
@@ -257,10 +262,11 @@ AND ac.user_id IS NULL
       ($type == CRM_Core_Permission::VIEW && CRM_Core_Permission::check('view my contact'))) {
       if (!CRM_Core_DAO::singleValueQuery("
         SELECT count(*) FROM civicrm_acl_contact_cache WHERE user_id = %1 AND contact_id = %1 AND operation = '{$operation}' LIMIT 1", $queryParams)) {
-        CRM_Core_DAO::executeQuery("INSERT INTO civicrm_acl_contact_cache ( user_id, contact_id, operation ) VALUES(%1, %1, '{$operation}')", $queryParams);
+        CRM_Core_DAO::executeQuery("INSERT IGNORE INTO civicrm_acl_contact_cache ( user_id, contact_id, operation ) VALUES(%1, %1, '{$operation}')", $queryParams);
       }
     }
     Civi::$statics[__CLASS__]['processed'][$type][$userID] = 1;
+    $lock->release();
   }
 
   /**
