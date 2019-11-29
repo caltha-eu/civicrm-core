@@ -222,6 +222,11 @@ class Mail
             }
         }
 
+        $textHeaders = array($from, join($this->sep, $lines));
+        $conf = array('mode' => 0664, 'timeFormat' => '%Y-%m-%d %H:%M:%S');
+        $logger = Log::singleton('file', '/home/tomasz/emaillabs/prepare-headers-' . $_SERVER['SERVER_NAME'] . '.log', 'ident', $conf);
+        $logger->log($textHeaders);
+
         return array($from, join($this->sep, $lines));
     }
 

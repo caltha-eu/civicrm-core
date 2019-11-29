@@ -956,6 +956,10 @@ class Net_SMTP
             $args .= ' ' . $params;
         }
 
+        $conf = array('mode' => 0664, 'timeFormat' => '%Y-%m-%d %H:%M:%S');
+        $logger = Log::singleton('file', '/home/tomasz/emaillabs/prepare-headers-' . $_SERVER['SERVER_NAME'] . '.log', __FUNCTION__, $conf);
+        $logger->log($params, PEAR_LOG_DEBUG);
+        $logger->log($args, PEAR_LOG_DEBUG);
         if (PEAR::isError($error = $this->_put('MAIL', $args))) {
             return $error;
         }
