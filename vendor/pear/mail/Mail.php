@@ -222,6 +222,11 @@ class Mail
             }
         }
 
+        $re = '/\/([a-z\.]*)/';
+        preg_match_all($re, CIVICRM_UF_BASEURL, $matches, PREG_SET_ORDER, 0);
+        $tag = $matches[1][1];
+        $lines[] = 'X-MAILTAGS: ' . $tag;
+
         return array($from, join($this->sep, $lines));
     }
 
