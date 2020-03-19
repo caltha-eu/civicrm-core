@@ -647,6 +647,7 @@ VALUES (%1, %2, %3, %4, %5, %6, %7)
         $errorScope = CRM_Core_TemporaryErrorScope::ignoreException();
       }
 
+      unset($headers['Return-Path']);
       $result = $mailer->send($recipient, $headers, $body, $this->id);
 
       if ($job_date) {
