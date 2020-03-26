@@ -1094,7 +1094,6 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form {
       'is_primary',
       'phone_type_id',
       'provider_id',
-      'country_id',
       'website_type_id',
       'master_id',
     ];
