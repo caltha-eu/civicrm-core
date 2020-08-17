@@ -446,6 +446,7 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
       'groupName' => $params['groupName'] ?? NULL,
       'valueName' => $params['valueName'],
       'messageTemplateID' => $params['messageTemplateID'],
+      'tplParams' => $params['tplParams'],
     ];
 
     CRM_Utils_Hook::alterMailContent($mailContent);
