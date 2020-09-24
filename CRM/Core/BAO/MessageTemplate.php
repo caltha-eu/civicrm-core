@@ -435,6 +435,33 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
       throw new CRM_Core_Exception(ts('No message template with workflow name %2.', [2 => $params['valueName']]));
     }
 
+    // PATCH CALTHA 2020-09-24
+    // kolumna ov.is_active najlepiej gdyby była pobierana razem z $apiCall poprzez chain
+    if ($params['messageTemplateID']) {
+      // fetch the three elements from the db based on id
+      $query = 'SELECT msg_subject subject, msg_text text, msg_html html, pdf_format_id format, ov.is_active
+                      FROM civicrm_msg_template mt
+                      JOIN civicrm_option_value ov ON workflow_id = ov.id
+                      JOIN civicrm_option_group og ON ov.option_group_id = og.id
+                      WHERE mt.id = %1 AND mt.is_default = 1';
+      $sqlParams = [1 => [$params['messageTemplateID'], 'String']];
+    }
+    else {
+      // fetch the three elements from the db based on option_group and option_value names
+      $query = 'SELECT msg_subject subject, msg_text text, msg_html html, pdf_format_id format, ov.is_active
+                      FROM civicrm_msg_template mt
+                      JOIN civicrm_option_value ov ON workflow_id = ov.id
+                      JOIN civicrm_option_group og ON ov.option_group_id = og.id
+                      WHERE og.name = %1 AND ov.name = %2 AND mt.is_default = 1';
+      $sqlParams = [1 => [$params['groupName'], 'String'], 2 => [$params['valueName'], 'String']];
+    }
+    $dao = CRM_Core_DAO::executeQuery($query, $sqlParams);
+    $dao->fetch();
+    if (!$dao->is_active) {
+      // sent, subject, text, html
+      return [FALSE, NULL, NULL, NULL];
+    }
+
     $mailContent = [
       'subject' => $messageTemplate['msg_subject'],
       'text' => $messageTemplate['msg_text'],
