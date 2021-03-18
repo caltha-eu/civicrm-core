@@ -418,7 +418,7 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
       CRM_Core_Error::deprecatedWarning('message template id should be an integer');
       $params['messageTemplateID'] = (int) $params['messageTemplateID'];
     }
-    $mailContent = self::loadTemplate((string) $params['valueName'], $params['isTest'], $params['messageTemplateID'] ?? NULL, $params['groupName'] ?? '');
+    $mailContent = self::loadTemplate((string) $params['valueName'], $params['isTest'], $params['messageTemplateID'] ?? NULL, $params['groupName'] ?? '', $params['tplParams'] ?? NULL);
 
     // Overwrite subject from form field
     if (!empty($params['subject'])) {
@@ -524,12 +524,13 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
    * @param bool $isTest
    * @param int|null $messageTemplateID
    * @param string $groupName
+   * @param null $tplParams
    *
    * @return array
    * @throws \API_Exception
    * @throws \CRM_Core_Exception
    */
-  protected static function loadTemplate(string $workflowName, bool $isTest, int $messageTemplateID = NULL, $groupName = NULL): array {
+  protected static function loadTemplate(string $workflowName, bool $isTest, int $messageTemplateID = NULL, $groupName = NULL, $tplParams = NULL): array {
     if (!$workflowName && !$messageTemplateID) {
       throw new CRM_Core_Exception(ts("Message template's option value or ID missing."));
     }
@@ -569,6 +570,7 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
       // https://github.com/civicrm/civicrm-core/pull/17180
       'groupName' => $groupName,
       'valueName' => $workflowName,
+      'tplParams' => $tplParams,
     ];
 
     CRM_Utils_Hook::alterMailContent($mailContent);
