@@ -419,6 +419,9 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
       $params['messageTemplateID'] = (int) $params['messageTemplateID'];
     }
     $mailContent = self::loadTemplate((string) $params['valueName'], $params['isTest'], $params['messageTemplateID'] ?? NULL, $params['groupName'] ?? '');
+    if (!$mailContent['message_template_is_active']) {
+      return [FALSE, NULL, NULL, NULL];
+    }
 
     // Overwrite subject from form field
     if (!empty($params['subject'])) {
@@ -535,7 +538,7 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
     }
 
     $apiCall = MessageTemplate::get(FALSE)
-      ->addSelect('msg_subject', 'msg_text', 'msg_html', 'pdf_format_id', 'id')
+      ->addSelect('msg_subject', 'msg_text', 'msg_html', 'pdf_format_id', 'id', 'workflow_id')
       ->addWhere('is_default', '=', 1);
 
     if ($messageTemplateID) {
@@ -570,6 +573,15 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
       'groupName' => $groupName,
       'valueName' => $workflowName,
     ];
+
+    $mailContent['message_template_is_active'] = TRUE;
+    if ($messageTemplate['workflow_id']) {
+      $apiCallTemplate = \Civi\Api4\OptionValue::get(FALSE)
+        ->addSelect('is_active')
+        ->addWhere('id', '=', (int) $messageTemplate['workflow_id']);
+      $optionTemplate = $apiCallTemplate->execute()->first();
+      $mailContent['message_template_is_active'] = !!$optionTemplate['is_active'];
+    }
 
     CRM_Utils_Hook::alterMailContent($mailContent);
 
