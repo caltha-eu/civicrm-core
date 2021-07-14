@@ -622,6 +622,10 @@ FROM civicrm_action_schedule cas
       'subject' => $tokenRow->render('subject'),
       'entity' => 'action_schedule',
       'entity_id' => $schedule->id,
+      'tplParams' => [
+        'entity_table' => @$tokenRow->tokenProcessor->rowContexts[0]['actionSearchResult']->entity_table,
+        'entity_id' => (int) @$tokenRow->tokenProcessor->rowContexts[0]['actionSearchResult']->entity_id,
+      ],
     ];
 
     if (!$body_html || $tokenRow->context['contact']['preferred_mail_format'] == 'Text' ||
@@ -636,6 +640,7 @@ FROM civicrm_action_schedule cas
     ) {
       $mailParams['html'] = $body_html;
     }
+    CRM_Utils_Hook::alterMailContent($mailParams);
     $result = CRM_Utils_Mail::send($mailParams);
     if (!$result || is_a($result, 'PEAR_Error')) {
       return ['email_fail' => 'Failed to send message'];
