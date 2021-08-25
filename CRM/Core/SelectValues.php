@@ -500,6 +500,7 @@ class CRM_Core_SelectValues {
       '{domain.address}' => ts('Domain (organization) address'),
       '{domain.phone}' => ts('Domain (organization) phone'),
       '{domain.email}' => ts('Domain (organization) email'),
+      '{domain.baseUrl}' => ts('Domain base with protocol'),
     ];
   }
 

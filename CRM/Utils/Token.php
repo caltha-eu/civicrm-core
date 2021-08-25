@@ -66,6 +66,7 @@ class CRM_Utils_Token {
       'email',
       'id',
       'description',
+      'baseUrl',
     ],
     'subscribe' => ['group'],
     'unsubscribe' => ['group'],
@@ -301,6 +302,9 @@ class CRM_Utils_Token {
           break;
         }
       }
+    }
+    elseif ($token == 'baseUrl') {
+      $value = CIVICRM_UF_BASEURL;
     }
 
     if ($escapeSmarty) {
