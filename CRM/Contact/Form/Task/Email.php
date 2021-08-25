@@ -89,7 +89,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
    * @throws \CRM_Core_Exception
    */
   public function listTokens() {
-    $tokens = CRM_Core_SelectValues::contactTokens();
+    $tokens = CRM_Core_SelectValues::contactTokens() + CRM_Core_SelectValues::domainTokens();
 
     if (isset($this->_caseId) || isset($this->_caseIds)) {
       // For a single case, list tokens relevant for only that case type

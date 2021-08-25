@@ -1100,6 +1100,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity {
       );
     }
 
+    $domain = CRM_Core_BAO_Domain::getDomain();
+    $subject = CRM_Utils_Token::replaceDomainTokens($subject, $domain, FALSE, $subjectToken);
+    $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, FALSE, $messageToken);
+    $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, TRUE, $messageToken);
+
     // call token hook
     $tokens = [];
     CRM_Utils_Hook::tokens($tokens);
