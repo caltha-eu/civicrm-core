@@ -354,6 +354,10 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
 
     CRM_Utils_Hook::alterMailParams($params, 'messageTemplate');
     $mailContent = self::loadTemplate((string) $params['valueName'], $params['isTest'], $params['messageTemplateID'] ?? NULL, $params['groupName'] ?? '', $params['messageTemplate'], $params['subject'] ?? NULL);
+    if (!$mailContent['message_template_is_active']) {
+      $mailContent = ['subject' => NULL, 'text' => NULL, 'html' => NULL];
+      $params['toEmail'] = NULL;
+    }
 
     $sync();
     $rendered = CRM_Core_TokenSmarty::render(CRM_Utils_Array::subset($mailContent, ['text', 'html', 'subject']), $params['tokenContext'], $params['tplParams']);
@@ -473,7 +477,7 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
     }
 
     $apiCall = MessageTemplate::get(FALSE)
-      ->addSelect('msg_subject', 'msg_text', 'msg_html', 'pdf_format_id', 'id')
+      ->addSelect('msg_subject', 'msg_text', 'msg_html', 'pdf_format_id', 'id', 'workflow_id')
       ->addWhere('is_default', '=', 1);
 
     if ($messageTemplateID) {
@@ -508,6 +512,15 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
       'groupName' => $groupName,
       'valueName' => $workflowName,
     ];
+
+    $mailContent['message_template_is_active'] = TRUE;
+    if ($messageTemplate['workflow_id']) {
+      $apiCallTemplate = \Civi\Api4\OptionValue::get(FALSE)
+        ->addSelect('is_active')
+        ->addWhere('id', '=', (int) $messageTemplate['workflow_id']);
+      $optionTemplate = $apiCallTemplate->execute()->first();
+      $mailContent['message_template_is_active'] = !!$optionTemplate['is_active'];
+    }
 
     CRM_Utils_Hook::alterMailContent($mailContent);
 
