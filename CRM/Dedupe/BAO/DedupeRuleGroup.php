@@ -89,6 +89,7 @@ class CRM_Dedupe_BAO_DedupeRuleGroup extends CRM_Dedupe_DAO_DedupeRuleGroup {
 
       foreach (['Individual', 'Organization', 'Household'] as $ctype) {
         // take the table.field pairs and their titles from importableFields() if the table is supported
+        $subTypes = CRM_Contact_BAO_ContactType::subTypes($ctype);
         foreach (CRM_Contact_BAO_Contact::importableFields($ctype) as $iField) {
           if (isset($iField['where'])) {
             $where = $iField['where'];
@@ -110,7 +111,7 @@ class CRM_Dedupe_BAO_DedupeRuleGroup extends CRM_Dedupe_DAO_DedupeRuleGroup {
         // exension is installed (https://github.com/eileenmcnaughton/org.wikimedia.thethe)
         $fields[$ctype]['civicrm_contact']['sort_name'] = ts('Sort Name');
         // add custom data fields
-        foreach (CRM_Core_BAO_CustomGroup::getTree($ctype, NULL, NULL, -1) as $key => $cg) {
+        foreach (CRM_Core_BAO_CustomGroup::getTree($ctype, NULL, NULL, -1, $subTypes) as $key => $cg) {
           if (!is_int($key)) {
             continue;
           }
