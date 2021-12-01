@@ -48,6 +48,7 @@ class CRM_Core_DomainTokens extends AbstractTokenSubscriber {
       'id' => ts('Domain ID'),
       'description' => ts('Domain Description'),
       'now' => ts('Current time/date'),
+      'baseUrl' => ts('Domain absolute base url with trailing slash'),
     ];
   }
 
@@ -107,6 +108,7 @@ class CRM_Core_DomainTokens extends AbstractTokenSubscriber {
       $email = reset($loc['email']);
       $tokens['phone'] = $phone['phone'] ?? '';
       $tokens['email'] = $email['email'] ?? '';
+      $tokens['baseUrl'] = (new CRM_Utils_System_Drupal())->getAbsoluteBaseURL();
       Civi::cache('metadata')->set($cacheKey, $tokens);
     }
     return Civi::cache('metadata')->get($cacheKey);
