@@ -46,7 +46,7 @@ function mailing_gettokens_expectedresult() {
   $expectedResult = [
     'is_error' => 0,
     'version' => 3,
-    'count' => 88,
+    'count' => 89,
     'values' => [
       '{action.unsubscribe}' => 'Unsubscribe via email',
       '{action.unsubscribeUrl}' => 'Unsubscribe via web page',
@@ -61,6 +61,7 @@ function mailing_gettokens_expectedresult() {
       '{domain.address}' => 'Domain (organization) address',
       '{domain.phone}' => 'Domain (organization) phone',
       '{domain.email}' => 'Domain (organization) email',
+      '{domain.baseUrl}' => 'Domain absolute base url with trailing slash',
       '{mailing.name}' => 'Mailing name',
       '{mailing.group}' => 'Mailing group',
       '{mailing.viewUrl}' => 'Mailing permalink',
