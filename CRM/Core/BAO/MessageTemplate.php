@@ -507,6 +507,7 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate {
       // https://github.com/civicrm/civicrm-core/pull/17180
       'groupName' => $groupName,
       'valueName' => $workflowName,
+      'tplParams' => CRM_Utils_Array::value('tplParams', $messageTemplate), // tplParams derived from $messageTemplateOverride array
     ];
 
     CRM_Utils_Hook::alterMailContent($mailContent);
