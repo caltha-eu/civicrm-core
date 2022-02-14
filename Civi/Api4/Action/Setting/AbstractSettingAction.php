@@ -74,7 +74,7 @@ abstract class AbstractSettingAction extends \Civi\Api4\Generic\AbstractAction {
           unset($this->values["$name:$suffix"]);
           $this->values[$name] = $value;
         }
-        \CRM_Core_BAO_Setting::validateSetting($this->values[$name], $meta[$name], FALSE);
+        \CRM_Core_BAO_Setting::validateSetting($this->values[$name], $meta[$name]);
 
       }
     }

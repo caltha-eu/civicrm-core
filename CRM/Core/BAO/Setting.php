@@ -272,16 +272,14 @@ class CRM_Core_BAO_Setting extends CRM_Core_DAO_Setting {
    *   value of the setting to be set
    * @param array $fieldSpec
    *   Metadata for given field (drawn from the xml)
-   * @param bool $convertToSerializedString
-   *   Deprecated mode
    *
    * @return bool
    * @throws \API_Exception
    */
-  public static function validateSetting(&$value, array $fieldSpec, $convertToSerializedString = TRUE) {
-    // Deprecated guesswork - should use $fieldSpec['serialize']
-    if ($convertToSerializedString && $fieldSpec['type'] == 'String' && is_array($value)) {
-      $value = CRM_Core_DAO::VALUE_SEPARATOR . implode(CRM_Core_DAO::VALUE_SEPARATOR, $value) . CRM_Core_DAO::VALUE_SEPARATOR;
+  public static function validateSetting(&$value, array $fieldSpec) {
+    $serializationType = CRM_Utils_Array::value('serialize', $fieldSpec);
+    if ($serializationType && $fieldSpec['type'] == 'String' && is_array($value)) {
+      $value = CRM_Core_DAO::serializeField($value, $serializationType);
     }
     if (empty($fieldSpec['validate_callback'])) {
       return TRUE;
