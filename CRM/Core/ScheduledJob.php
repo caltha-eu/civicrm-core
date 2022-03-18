@@ -123,7 +123,7 @@ class CRM_Core_ScheduledJob {
         break;
 
       case 'Daily':
-        $format = 'Ymd060000';
+        $format = 'Ymd120000';
         break;
 
       case 'Hourly':
