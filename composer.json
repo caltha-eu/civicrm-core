@@ -49,7 +49,7 @@
   "require": {
     "php": "~7.2 || ~8",
     "cache/integration-tests": "~0.17.0",
-    "dompdf/dompdf" : "~1.0.0",
+    "dompdf/dompdf" : "1.2.1",
     "firebase/php-jwt": ">=3 <6",
     "electrolinux/phpquery": "^0.9.6",
     "symfony/config": "~3.0 || ~4.4",
@@ -96,20 +96,10 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "bash tools/scripts/composer/dompdf-cleanup.sh",
-      "bash tools/scripts/composer/tcpdf-cleanup.sh",
-      "bash tools/scripts/composer/pear-exception-fix.sh",
-      "bash tools/scripts/composer/net-smtp-fix.sh",
-      "bash tools/scripts/composer/pear-mail-fix.sh",
-      "bash tools/scripts/composer/phpword-jquery.sh"
+      "bash tools/scripts/composer/dompdf-cleanup.sh"
     ],
     "post-update-cmd": [
-      "bash tools/scripts/composer/dompdf-cleanup.sh",
-      "bash tools/scripts/composer/tcpdf-cleanup.sh",
-      "bash tools/scripts/composer/pear-exception-fix.sh",
-      "bash tools/scripts/composer/net-smtp-fix.sh",
-      "bash tools/scripts/composer/pear-mail-fix.sh",
-      "bash tools/scripts/composer/phpword-jquery.sh"
+      "bash tools/scripts/composer/dompdf-cleanup.sh"
     ]
   },
   "repositories": {
