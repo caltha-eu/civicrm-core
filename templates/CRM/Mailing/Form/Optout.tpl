@@ -9,12 +9,12 @@
 *}
 
 <div class="crm-block crm-form-block crm-miscellaneous-form-block">
-  <p>{ts}You are requesting to opt out this email address from all mailing lists:{/ts}</p>
+  <p>Wysłałeś/aś prośbę z tego adresu e-mail o rezygnację ze wszystkich naszych list adresowych</p>
   <h3>{$email_masked}</h3>
 
   <p>
-      {ts}If this is not your email address, there is no need to do anything. You have <strong>not</strong> been added to any mailing lists.{/ts}
-      {ts}If this is your email address and you <strong>wish to opt out</strong> please click the <strong>Opt Out</strong> button to confirm.{/ts}
+      Jeśli to nie jest Twój adres e-mail, nie musisz nic robić. Nie zostałeś dodany do żadnej listy mailingowej.
+      Jeśli jest to Twój adres e-mail i <i><strong>chcesz zrezygnować</strong></i>, kliknij przycisk <strong>Rezygnuję</strong> aby potwierdzić.
   </p>
 
   <div class="crm-submit-buttons">
