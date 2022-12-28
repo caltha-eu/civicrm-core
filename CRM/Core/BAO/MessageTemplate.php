@@ -341,6 +341,10 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate implemen
     $language = $params['language'] ?? (!empty($params['contactId']) ? Civi\Api4\Contact::get(FALSE)->addWhere('id', '=', $params['contactId'])->addSelect('preferred_language')->execute()->first()['preferred_language'] : NULL);
     CRM_Utils_Hook::alterMailParams($params, 'messageTemplate');
     [$mailContent, $translatedLanguage] = self::loadTemplate((string) $params['workflow'], $params['isTest'], $params['messageTemplateID'] ?? NULL, $params['groupName'] ?? '', $params['messageTemplate'], $params['subject'] ?? NULL, $language);
+    if (!$mailContent['message_template_is_active']) {
+        $mailContent = ['subject' => NULL, 'text' => NULL, 'html' => NULL];
+        $params['toEmail'] = NULL;
+    }
     $params['tokenContext']['locale'] = $translatedLanguage ?? $params['language'] ?? NULL;
 
     self::synchronizeLegacyParameters($params);
@@ -470,7 +474,7 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate implemen
     $apiCall = MessageTemplate::get(FALSE)
       ->setLanguage($language)
       ->setTranslationMode('fuzzy')
-      ->addSelect('msg_subject', 'msg_text', 'msg_html', 'pdf_format_id', 'id')
+      ->addSelect('msg_subject', 'msg_text', 'msg_html', 'pdf_format_id', 'id', 'workflow_id')
       ->addWhere('is_default', '=', 1);
 
     if ($messageTemplateID) {
@@ -506,6 +510,15 @@ class CRM_Core_BAO_MessageTemplate extends CRM_Core_DAO_MessageTemplate implemen
       'groupName' => $groupName,
       'workflow' => $workflowName,
     ];
+
+    $mailContent['message_template_is_active'] = TRUE;
+    if ($messageTemplate['workflow_id']) {
+        $apiCallTemplate = \Civi\Api4\OptionValue::get(FALSE)
+            ->addSelect('is_active')
+            ->addWhere('id', '=', (int) $messageTemplate['workflow_id']);
+        $optionTemplate = $apiCallTemplate->execute()->first();
+        $mailContent['message_template_is_active'] = !!$optionTemplate['is_active'];
+    }
 
     CRM_Utils_Hook::alterMailContent($mailContent);
 
