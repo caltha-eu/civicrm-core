@@ -1,0 +1,38 @@
+{
+    "verdana": {
+        "normal": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Verdana",
+        "bold": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Verdana_Bold",
+        "italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Verdana_Italic",
+        "bold_italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Verdana_Bold_Italic"
+    },
+    "serif": {
+        "normal": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Verdana",
+        "bold": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Verdana_Bold",
+        "italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Verdana_Italic",
+        "bold_italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Verdana_Bold_Italic"
+    },
+    "trebuchet ms": {
+        "normal": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Trebuchet_MS",
+        "bold": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Trebuchet_MS_Bold",
+        "italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Trebuchet_MS_Italic",
+        "bold_italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Trebuchet_MS_Bold_Italic"
+    },
+    "courier new": {
+        "normal": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Courier_New",
+        "bold": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Courier_New_Bold",
+        "italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Courier_New_Italic",
+        "bold_italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Courier_New_Bold_Italic"
+    },
+    "arial": {
+        "normal": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Arial",
+        "bold": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Arial_Bold",
+        "italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Arial_Italic",
+        "bold_italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/Arial_Bold_Italic"
+    },
+    "calibri": {
+        "normal": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/calibri",
+        "bold": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/calibrib",
+        "italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/calibrii",
+        "bold_italic": "\/srv\/tools\/make-package\/civicrm\/vendor\/dompdf\/dompdf\/lib\/fonts\/calibri"
+    }
+}
