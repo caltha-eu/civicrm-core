@@ -74,6 +74,7 @@ function mailing_gettokens_expectedresult() {
       '{domain.description}' => 'Domain Description',
       '{domain.now}' => 'Current time/date',
       '{domain.base_url}' => 'Domain absolute base url',
+      '{domain.baseUrl}' => 'Domain absolute base url with trailing slash',
       '{domain.tax_term}' => 'Sales tax term (e.g VAT)',
       '{contact.checksum}' => 'Checksum',
       '{contact.current_employer}' => 'Current Employer',
