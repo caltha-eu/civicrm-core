@@ -131,7 +131,7 @@ trait TemplateTrait {
       'groupName' => $groupName,
       'workflow' => $workflowName,
       'isTest' => $isTest,
-      'tplParams' => CRM_Utils_Array::value('tplParams', $messageTemplate), // tplParams derived from $messageTemplateOverride array
+      'tplParams' => \CRM_Utils_Array::value('tplParams', $messageTemplate), // tplParams derived from $messageTemplateOverride array
     ];
 
     return [$mailContent, $messageTemplate['actual_language'] ?? NULL];
