@@ -124,6 +124,7 @@ class CRM_Case_Page_Tab extends CRM_Core_Page {
     $controller->reset();
     $controller->set('limit', 20);
     $controller->set('force', 1);
+    $controller->set('crmSID', '2_d');
     $controller->set('context', 'case');
     $controller->process();
     $controller->run();
