@@ -58,6 +58,7 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base {
     'case_type',
     'case_role',
     'phone',
+    'case_activity_date_time',
   ];
 
   /**
@@ -392,6 +393,11 @@ class CRM_Case_Selector_Search extends CRM_Core_Selector_Base {
       self::$_columnHeaders = [
         [
           'name' => ts('Subject'),
+          'direction' => CRM_Utils_Sort::DONTCARE,
+        ],
+        [
+          'name' => ts('Data przypadku'),
+          'sort' => 'case_activity_date_time',
           'direction' => CRM_Utils_Sort::DONTCARE,
         ],
         [

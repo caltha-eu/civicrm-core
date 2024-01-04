@@ -47,6 +47,7 @@
     {/if}
 
     <td class="crm-case-subject">{$row.case_subject}</td>
+    <td class="crm-case-case_activity_date_time">{$row.case_activity_date_time}</td>
     <td class="{$row.class} crm-case-status_{$row.case_status}">{$row.case_status}</td>
     <td class="crm-case-case_type">{$row.case_type}</td>
     <td class="crm-case-case_role">{if $row.case_role}{$row.case_role}{else}---{/if}</td>
