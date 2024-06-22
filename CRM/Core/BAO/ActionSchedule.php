@@ -390,7 +390,7 @@ FROM civicrm_action_schedule cas
         }
 
         if ($actionSchedule->mode === 'Email' || $actionSchedule->mode === 'User_Preference') {
-          CRM_Utils_Array::extend($errors, self::sendReminderEmail($tokenRow, $actionSchedule, $dao->contactID));
+          CRM_Utils_Array::extend($errors, self::sendReminderEmail($tokenRow, $actionSchedule, $dao->contactID, $dao));
         }
         // insert activity log record if needed
         if ($actionSchedule->record_activity && empty($errors)) {
@@ -671,12 +671,13 @@ FROM civicrm_action_schedule cas
    * @param \Civi\Token\TokenRow $tokenRow
    * @param CRM_Core_DAO_ActionSchedule $schedule
    * @param int $toContactID
+   * @param $dao
    *
    * @return array
    *   List of error messages.
    * @throws \CRM_Core_Exception
    */
-  protected static function sendReminderEmail($tokenRow, $schedule, $toContactID): array {
+  protected static function sendReminderEmail($tokenRow, $schedule, $toContactID, $dao): array {
     $toEmail = CRM_Contact_BAO_Contact::getPrimaryEmail($toContactID, TRUE);
     if (!$toEmail) {
       return ['email_missing' => "Couldn't find recipient's email address."];
@@ -692,6 +693,10 @@ FROM civicrm_action_schedule cas
       'entity' => 'action_schedule',
       'entity_id' => $schedule->id,
       'contactId' => $toContactID,
+      'tplParams' => [
+        'entity_table' => $dao->entityTable ?? NULL,
+        'entity_id' => (int)($dao->entityID ?? 0),
+      ],
     ];
     $body_text = $tokenRow->render('body_text');
     $mailParams['html'] = $tokenRow->render('body_html');
@@ -703,6 +708,7 @@ FROM civicrm_action_schedule cas
     // render the &amp; entities in text mode, so that the links work
     $mailParams['text'] = str_replace('&amp;', '&', $body_text);
 
+    CRM_Utils_Hook::alterMailContent($mailParams);
     $result = CRM_Utils_Mail::send($mailParams);
     if (!$result) {
       return ['email_fail' => 'Failed to send message'];
