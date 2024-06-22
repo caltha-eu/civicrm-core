@@ -791,6 +791,8 @@ class CRM_Contact_Form_Contact extends CRM_Core_Form {
           'household_name',
           'organization_name',
           'email',
+          'pesel_46',
+          'pesel_wolontariusz_78'
         ]);
       $this->assign('ruleFields', json_encode($ruleFields));
     }
