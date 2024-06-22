@@ -57,6 +57,7 @@ class CRM_Core_DomainTokens extends AbstractTokenSubscriber {
       'description' => ts('Domain Description'),
       'now' => ts('Current time/date'),
       'base_url' => ts('Domain absolute base url'),
+      'baseUrl' => ts('Domain absolute base url with trailing slash'),
       'tax_term' => ts('Sales tax term (e.g VAT)'),
       'empowered_by_civicrm_image_url' => ts('Empowered By CiviCRM Image'),
     ];
@@ -129,6 +130,7 @@ class CRM_Core_DomainTokens extends AbstractTokenSubscriber {
       $tokens['phone'] = $phone['phone'] ?? '';
       $tokens['email'] = $email['email'] ?? '';
       $tokens['base_url'] = Civi::paths()->getVariable('cms.root', 'url');
+      $tokens['baseUrl'] = (new CRM_Utils_System_Drupal())->getAbsoluteBaseURL();
       $tokens['empowered_by_civicrm_image_url'] = CRM_Core_Config::singleton()->userFrameworkResourceURL . 'i/civi99.png';
       $tokens['tax_term'] = (string) Civi::settings()->get('tax_term');
       Civi::cache('metadata')->set($cacheKey, $tokens);
