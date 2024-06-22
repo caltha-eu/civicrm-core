@@ -132,6 +132,7 @@ trait TemplateTrait {
       'groupName' => $groupName,
       'workflow' => $workflowName,
       'isTest' => $isTest,
+      'tplParams' => $messageTemplate['tplParams'] ?? NULL, // tplParams derived from $messageTemplateOverride array
     ];
 
     return [$mailContent, $messageTemplate['actual_language'] ?? NULL];
