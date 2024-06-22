@@ -663,6 +663,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup implements \Civi
     if ($entityType === 'Event') {
       $subTypes = CRM_Core_OptionGroup::values('event_type', TRUE, FALSE, FALSE, NULL, 'name');
     }
+    elseif ($entityType === 'Contribution') {
+      $subTypes = ['Payu Cykliczny' => 1, 'Payu Jednorazowy' => 1];
+    }
     elseif (!array_key_exists($entityType, $contactTypes)) {
       throw new CRM_Core_Exception('Invalid Entity Filter');
     }
