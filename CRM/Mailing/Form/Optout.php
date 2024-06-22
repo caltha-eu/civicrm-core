@@ -51,7 +51,7 @@ class CRM_Mailing_Form_Optout extends CRM_Core_Form {
 
     if (!$job_id || !$queue_id || !$hash) {
       CRM_Utils_System::sendResponse(
-        new \GuzzleHttp\Psr7\Response(400, [], ts("Invalid request: missing parameters"))
+        new \GuzzleHttp\Psr7\Response(400, [], ts("Brakuje parametrów"))
       );
     }
 
@@ -59,7 +59,7 @@ class CRM_Mailing_Form_Optout extends CRM_Core_Form {
     $q = CRM_Mailing_Event_BAO_MailingEventQueue::verify(NULL, $queue_id, $hash);
     if (!$q) {
       CRM_Utils_System::sendResponse(
-        new \GuzzleHttp\Psr7\Response(400, [], ts("Invalid request: bad parameters"))
+        new \GuzzleHttp\Psr7\Response(400, [], ts("Wystąpił błąd podczas Twojej próby zweryfikowania prośby"))
       );
     }
 
@@ -73,12 +73,12 @@ class CRM_Mailing_Form_Optout extends CRM_Core_Form {
 
   public function buildQuickForm() {
     CRM_Utils_System::addHTMLHead('<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">');
-    $this->setTitle(ts('Opt Out Confirmation'));
+    $this->setTitle('Potwierdź prośbę o rezygnację ze wszystkich wysyłek');
 
     $buttons = [
       [
         'type' => 'next',
-        'name' => ts('Opt Out'),
+        'name' => ts('Rezygnuję'),
         'isDefault' => TRUE,
       ],
       [
@@ -100,7 +100,7 @@ class CRM_Mailing_Form_Optout extends CRM_Core_Form {
       CRM_Mailing_Event_BAO_MailingEventUnsubscribe::send_unsub_response($this->_queue_id, NULL, TRUE, $this->_job_id);
     }
 
-    $statusMsg = ts('%1 opt out confirmed.', [1 => CRM_Utils_String::maskEmail($this->_email)]);
+    $statusMsg = ts('Adres e-mail: %s został prawidłowy wypisany ze wszystkich wysyłek', [1 => CRM_Utils_String::maskEmail($this->_email)]);
     CRM_Core_Session::setStatus($statusMsg, '', 'success');
   }
 
