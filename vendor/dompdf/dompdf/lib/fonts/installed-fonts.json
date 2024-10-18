@@ -1,0 +1,38 @@
+{
+    "verdana": {
+        "normal": "Verdana",
+        "bold": "Verdana_Bold",
+        "italic": "Verdana_Italic",
+        "bold_italic": "Verdana_Bold_Italic"
+    },
+    "serif": {
+        "normal": "Verdana",
+        "bold": "Verdana_Bold",
+        "italic": "Verdana_Italic",
+        "bold_italic": "Verdana_Bold_Italic"
+    },
+    "trebuchet ms": {
+        "normal": "Trebuchet_MS",
+        "bold": "Trebuchet_MS_Bold",
+        "italic": "Trebuchet_MS_Italic",
+        "bold_italic": "Trebuchet_MS_Bold_Italic"
+    },
+    "courier new": {
+        "normal": "Courier_New",
+        "bold": "Courier_New_Bold",
+        "italic": "Courier_New_Italic",
+        "bold_italic": "Courier_New_Bold_Italic"
+    },
+    "arial": {
+        "normal": "Arial",
+        "bold": "Arial_Bold",
+        "italic": "Arial_Italic",
+        "bold_italic": "Arial_Bold_Italic"
+    },
+    "calibri": {
+        "normal": "calibri",
+        "bold": "calibrib",
+        "italic": "calibrii",
+        "bold_italic": "calibri"
+    }
+}
