@@ -79,6 +79,7 @@ trait CRM_Contact_Form_Task_SMSTrait {
         ->addWhere('phone_numeric', '>', 0)
         ->addWhere('phone_type_id:name', '=', 'Mobile')
         ->addOrderBy('is_primary')
+        ->addOrderBy('id', 'DESC')
         ->addSelect('id', 'contact_id', 'phone', 'phone_type_id:name', 'phone_numeric', 'contact_id.sort_name', 'phone_type_id', 'contact_id.display_name');
       if ($this->getSubmittedValue('to')) {
         $phoneGet->addWhere('id', 'IN', explode(',', $this->getSubmittedValue('to')));
