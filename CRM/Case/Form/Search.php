@@ -48,7 +48,9 @@ class CRM_Case_Form_Search extends CRM_Core_Form_Search {
     // call $this->form->getSearchFormValues()
     // A couple of extensions use it.
     $this->set('searchFormName', 'Search');
-
+    if(empty($_GET['crmSID'])) {
+      $_GET['crmSID'] = 2;
+    }
     //check for civicase access.
     if (!CRM_Case_BAO_Case::accessCiviCase()) {
       CRM_Core_Error::statusBounce(ts('You are not authorized to access this page.'));
