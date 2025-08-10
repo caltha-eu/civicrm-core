@@ -417,7 +417,7 @@
             $(this).dialog('option', 'title', data.title);
           }
           // Update print url
-          $(this).parent().find('a.crm-dialog-titlebar-print').attr('href', $(this).data('civiCrmSnippet')._formatUrl($(this).crmSnippet('option', 'url'), '1'));
+          $(this).parent().find('a.crm-dialog-titlebar-print').attr('href', $(this).data('civiCrmSnippet')._formatUrl($(this).crmSnippet('option', 'url'), '1') + '&print=1');
         });
     }
     $(settings.target).crmSnippet(settings).crmSnippet('refresh');
