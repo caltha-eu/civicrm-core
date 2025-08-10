@@ -204,7 +204,7 @@ return [
     ],
     'organization_name' => [
       'title' => ts('Organization Name'),
-      'sql_type' => 'varchar(128)',
+      'sql_type' => 'varchar(255)',
       'input_type' => 'Text',
       'description' => ts('Organization Name.'),
       'add' => '1.1',
