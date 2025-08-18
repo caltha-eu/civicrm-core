@@ -353,7 +353,7 @@ AND domain_id = %2
       $whereClause = NULL;
     }
     else {
-      $fromClause = " INNER JOIN civicrm_acl_contact_cache aclContactCache ON {$contactAlias}.id = aclContactCache.contact_id ";
+      $fromClause = " INNER JOIN civicrm_acl_contact_cache aclContactCache ON {$contactAlias}.id = aclContactCache.contact_id AND aclContactCache.user_id = {$contactID}";
       $whereClause = " aclContactCache.user_id = $contactID AND aclContactCache.domain_id = {$domainID}";
       if (!CRM_Core_Permission::check('access deleted contacts')) {
         $whereClause .= " AND $contactAlias.is_deleted = 0";
