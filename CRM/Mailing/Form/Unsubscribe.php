@@ -51,13 +51,13 @@ class CRM_Mailing_Form_Unsubscribe extends CRM_Core_Form {
     $isConfirm = CRM_Utils_Request::retrieveValue('confirm', 'Boolean', FALSE, FALSE, 'GET');
 
     if (!$job_id || !$queue_id || !$hash) {
-      CRM_Utils_System::sendInvalidRequestResponse(ts("Invalid request: missing parameters"));
+      CRM_Utils_System::sendInvalidRequestResponse(ts("Brakuje parametrów"));
     }
 
     // verify that the three numbers above match
     $q = CRM_Mailing_Event_BAO_MailingEventQueue::verify(NULL, $queue_id, $hash);
     if (!$q) {
-      CRM_Utils_System::sendInvalidRequestResponse(ts("Invalid request: bad parameters"));
+      CRM_Utils_System::sendInvalidRequestResponse(ts("Wystąpił błąd podczas Twojej próby zweryfikowania prośby"));
     }
 
     [$displayName, $email] = CRM_Mailing_Event_BAO_MailingEventQueue::getContactInfo($queue_id);
@@ -83,7 +83,7 @@ class CRM_Mailing_Form_Unsubscribe extends CRM_Core_Form {
       }
     }
     if (!$groupExist && !$isConfirm) {
-      $statusMsg = ts('%1 has already been unsubscribed.', [1 => $email]);
+      $statusMsg = ts('Adres e-mail %s został już wcześniej prawidłowy wypisany z newslettera.', [1 => $email]);
       CRM_Core_Session::setStatus($statusMsg, '', 'error');
     }
     // @todo - can we just check if groups is empty here & in the template?
@@ -92,12 +92,12 @@ class CRM_Mailing_Form_Unsubscribe extends CRM_Core_Form {
 
   public function buildQuickForm() {
     CRM_Utils_System::setNoRobotsFlag();
-    $this->setTitle(ts('Unsubscribe Confirmation'));
+    $this->setTitle(ts('Potwierdź proszę wypisanie się z newslettera'));
 
     $buttons = [
       [
         'type' => 'next',
-        'name' => ts('Unsubscribe'),
+        'name' => ts('Wpisz imię'),
         'isDefault' => TRUE,
       ],
       [
@@ -121,7 +121,7 @@ class CRM_Mailing_Form_Unsubscribe extends CRM_Core_Form {
       CRM_Mailing_Event_BAO_MailingEventUnsubscribe::send_unsub_response($this->_queue_id, $groups, FALSE, $this->_job_id);
     }
 
-    $statusMsg = ts('%1 has been unsubscribed successfully.', [1 => $this->_email]);
+    $statusMsg = ts('Adres e-mail: %s został wypisany z newslettera.', [1 => $this->_email]);
     CRM_Core_Session::setStatus($statusMsg, '', 'success');
   }
 
