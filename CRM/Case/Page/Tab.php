@@ -125,6 +125,9 @@ class CRM_Case_Page_Tab extends CRM_Core_Page {
     $controller->set('limit', 20);
     $controller->set('force', 1);
     $controller->set('crmSID', '2_d');
+    if(!isset($_GET[CRM_Utils_Sort::SORT_ID])) {
+      $_GET[CRM_Utils_Sort::SORT_ID] = '3_u';
+    }
     $controller->set('context', 'case');
     $controller->process();
     $controller->run();
