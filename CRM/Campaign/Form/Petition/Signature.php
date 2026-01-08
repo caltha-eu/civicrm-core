@@ -327,7 +327,7 @@ class CRM_Campaign_Form_Petition_Signature extends CRM_Core_Form {
     $this->addButtons([
       [
         'type' => 'upload',
-        'name' => ts('Sign the Petition'),
+        'name' => ts('Podpisz apel'),
         'isDefault' => TRUE,
       ],
     ]);

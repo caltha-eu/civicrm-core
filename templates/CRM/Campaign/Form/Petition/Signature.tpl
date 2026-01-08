@@ -10,26 +10,26 @@
 
 
 <script>
-{literal}
+  {literal}
   if (typeof(cj) === 'undefined') cj = jQuery;
-{/literal}
+  {/literal}
 </script>
 
 {crmPermission has='administer CiviCampaign'}
-  {capture assign="buttonTitle"}{ts}Edit Petition{/ts}{/capture}
-  {crmButton target="_blank" p="civicrm/petition/add" q="reset=1&action=update&id=`$petition.id`" fb=1 title="$buttonTitle" icon="fa-wrench"}{ts}Configure{/ts}{/crmButton}
+{capture assign="buttonTitle"}{ts}Edit Petition{/ts}{/capture}
+{crmButton target="_blank" p="civicrm/petition/add" q="reset=1&action=update&id=`$petition.id`" fb=1 title="$buttonTitle" icon="fa-wrench"}{ts}Configure{/ts}{/crmButton}
   <div class='clear'></div>
 {/crmPermission}
 
 {if ! $isActive}
-  <p>{ts}Petition is no longer active.{/ts}</p>
+<p>{ts}Petition is no longer active.{/ts}</p>
 {else}
-  <div id="intro" class="crm-section">{$petition.instructions}</div>
-  <div class="crm-block crm-petition-form-block">
+<div id="intro" class="crm-section">{$petition.instructions}</div>
+<div class="crm-block crm-petition-form-block">
 
   {if $duplicate == "confirmed"}
     <p>
-    {ts}You have already signed this petition.{/ts}
+      {ts}You have already signed this petition.{/ts}
     </p>
   {/if}
   {if $duplicate == "unconfirmed"}
@@ -53,5 +53,41 @@
       {include file="CRM/common/formButtons.tpl" location="bottom"}
     </div>
   {/if}
-{/if}
+  {/if}
 </div>
+<style>
+  #crm-container.crm-public input[type="text"],
+  #crm-container.crm-public input[type="password"],
+  #crm-container.crm-public input[type="email"],
+  #crm-container.crm-public select {
+    padding: 0 5px;
+    height: auto;
+    width: auto;
+  }
+  #crm-container.crm-public input[type="text"]:focus,
+  #crm-container.crm-public input[type="password"]:focus,
+  #crm-container.crm-public input[type="email"]:focus,
+  #crm-container.crm-public select:focus {
+    outline-width: 2px;
+  }
+  #_qf_Signature_upload-bottom.crm-button {
+    color: var(--color--white);
+    border-color: var(--color--primary-40);
+    background-color: var(--color--primary-40);
+    font-weight: bold;
+    text-shadow: none;
+    font-size: 1.1em;
+  }
+  #_qf_Signature_upload-bottom.crm-button i{
+    margin-right: 5px;
+  }
+  @supports (display: inline-flex) {
+    #_qf_Signature_upload-bottom.crm-button {
+      display: inline-flex;
+      align-items: center;
+      padding-block: 10px;
+      padding-inline: var(--sp1-5);
+      line-height: var(--line-height-s);
+    }
+  }
+</style>

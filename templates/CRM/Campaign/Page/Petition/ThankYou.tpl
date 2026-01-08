@@ -9,14 +9,8 @@
 *}
 
 {if $status_id eq 2} {* Signer needs to confirm signature. *}
-  <h2>{ts}STEP 2: Please Check Your Email{/ts}</h2>
-  <p>{ts}To complete and confirm your signature, please follow the activation instructions sent to the email address you provided.{/ts}</p>
-  <p>
-
-    <strong>{ts}IMPORTANT{/ts}</strong>: {ts}Before we can add your signature, you must validate your email address by clicking on the activation link in the confirmation e-mail. Sometimes our confirmation emails get flagged as spam and are moved to your bulk folder.{/ts}
-    <br/>
-    {ts}If you haven't received an email within a few minutes, please check your spam folder.{/ts}
-  </p>
+  <h2>{ts}Potwierdź złożenie podpisu pod apelem.{/ts}</h2>
+  <p>{ts}Link do potwierdzenia znajdziesz w mailu. Jeśli mail nie trafił do Twojej skrzynki odbiorczej, sprawdź folder SPAM.{/ts}</p>
 {/if}
 
 {if $status_id eq 4}
