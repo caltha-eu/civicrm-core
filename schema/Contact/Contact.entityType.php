@@ -719,7 +719,7 @@ return [
     ],
     'job_title' => [
       'title' => ts('Job Title'),
-      'sql_type' => 'varchar(255)',
+      'sql_type' => 'varchar(512)',
       'input_type' => 'Text',
       'description' => ts('Job Title'),
       'add' => '1.1',
