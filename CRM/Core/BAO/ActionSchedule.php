@@ -395,7 +395,7 @@ FROM civicrm_action_schedule cas
           }
           // FIXME: This can't be right: "If mode is User Preference, send email unconditionally without checking user preference"!
           if ($actionSchedule->mode === 'Email' || $actionSchedule->mode === 'User_Preference') {
-            CRM_Utils_Array::extend($errors, self::sendReminderEmail($tokenRow, $actionSchedule, $dao->contactID, $alternateRecipients, $bccRecipients));
+            CRM_Utils_Array::extend($errors, self::sendReminderEmail($tokenRow, $actionSchedule, $dao->contactID, $alternateRecipients, $bccRecipients, $dao));
           }
           // insert activity log record if needed
           if ($actionSchedule->record_activity && empty($errors)) {
@@ -747,7 +747,7 @@ FROM civicrm_action_schedule cas
    *   List of error messages.
    * @throws \CRM_Core_Exception
    */
-  protected static function sendReminderEmail($tokenRow, $schedule, $toContactID, ?array $alternateRecipients, ?array $bccRecipients): array {
+  protected static function sendReminderEmail($tokenRow, $schedule, $toContactID, ?array $alternateRecipients, ?array $bccRecipients, $dao): array {
     if (isset($alternateRecipients)) {
       $toEmail = implode(', ', self::getEmailAddresses($alternateRecipients));
     }
@@ -768,6 +768,10 @@ FROM civicrm_action_schedule cas
       'entity' => 'action_schedule',
       'entity_id' => $schedule->id,
       'contactId' => $toContactID,
+      'tplParams' => [
+        'entity_table' => $dao->entityTable ?? NULL,
+        'entity_id' => (int)($dao->entityID ?? 0),
+      ],
     ];
     if (isset($bccRecipients)) {
       $mailParams['bcc'] = implode(', ', self::getEmailAddresses($bccRecipients));
@@ -782,6 +786,7 @@ FROM civicrm_action_schedule cas
     // render the &amp; entities in text mode, so that the links work
     $mailParams['text'] = str_replace('&amp;', '&', $body_text);
 
+    CRM_Utils_Hook::alterMailContent($mailParams);
     $result = CRM_Utils_Mail::send($mailParams);
     if (!$result) {
       return ['email_fail' => 'Failed to send message'];
