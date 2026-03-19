@@ -114,7 +114,7 @@ class CRM_Utils_Number {
       $formatter->setAttribute($key, (int) $value);
     }
 
-    return $formatter->format($amount);
+    return $formatter->format(str_replace(' ', '', $amount));
   }
 
 }
