@@ -1248,8 +1248,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField implements \Civi
               $fileId = $value;
             }
             else {
-              $fileId = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_File', $value, 'id', 'uri');
-            }
+              // https://app.asana.com/0/1200515293853186/1201309422931082
+              // wbudowana metoda wyszukiwania nie uwzględnia wielkości liter i wersji znaków diakrytycznych!
+              // nie da się przekazać BINARY do wbudowanej metody, bo ona generuje WHERE na poziomie paczki DB_DataObject
+              $query = "SELECT id FROM civicrm_file WHERE uri = BINARY %1";
+              $params = [
+                1 => [$value, 'String'],
+              ];
+              $fileId = (int) CRM_Core_DAO::singleValueQuery($query, $params);
+	    }
             $url = self::getFileURL($entityId, $field['id'], $fileId);
             if ($url) {
               $display = $url['file_url'];
